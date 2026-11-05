@@ -6,5 +6,5 @@
 
 ## Tasks
 - Task 1: Basic Network Sniffer (coming soon)
-- Task 2: Phishing Awareness Training (coming soon)
+- Task 2: Phishing Awareness Training (completed)
 - Task 3: Secure Coding Review (coming soon)
