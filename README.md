@@ -7,4 +7,4 @@
 ## Tasks
 - Task 1: Basic Network Sniffer (completed)
 - Task 2: Phishing Awareness Training (completed)
-- Task 3: Secure Coding Review (coming soon)
+- Task 3: Secure Coding Review (completed)
