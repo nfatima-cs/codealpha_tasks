@@ -1,0 +1,76 @@
+TASK 3: SECURE CODING REVIEW
+
+1. APPLICATION AND SCOPE
+Language: Python
+Application: Scapy-based IPv4 packet sniffer
+Original file: sniffer.py
+Modified file: sniffer_secure.py
+
+The review covered the supplied source code only.
+Live packet capture and runtime testing were not performed
+as part of this review.
+
+2. REVIEW METHODS
+- Static analysis using Bandit 1.9.4 on Python 3.12.10.
+- Manual inspection of the original and modified code.
+
+3. AUTOMATED SCAN RESULTS
+Original file: 28 lines scanned; no issues identified.
+Modified file: 28 lines scanned; no issues identified.
+No files were skipped in either scan.
+
+Evidence:
+- bandit_report.txt
+- bandit_secure_report.txt
+
+These results describe Bandit's checks only.
+They do not prove that the application has no security risks.
+
+4. MANUAL FINDING: POTENTIAL PAYLOAD DISCLOSURE
+Original code:
+print("Payload preview:", repr(packet[Raw].load[:50]))
+
+Observation:
+The original code printed up to 50 bytes of captured payload.
+
+Potential impact:
+Sensitive information could appear in terminal output if it
+is present in those captured bytes. No actual sensitive-data
+disclosure was demonstrated during this review.
+
+Remediation implemented:
+Replaced payload content output with payload length output:
+print("Payload length:", len(packet[Raw].load), "bytes")
+
+Also updated the no-data message to:
+print("Payload length: No Raw data")
+
+Status:
+Implemented in sniffer_secure.py.
+Original sniffer.py preserved for comparison.
+
+5. EXISTING CONTROLS OBSERVED
+- Educational-use and authorization warning.
+- Packet limit: count=5.
+- Capture timeout: timeout=30.
+- Packet-list retention disabled: store=False.
+
+6. ADDITIONAL RECOMMENDATIONS
+The following are suggested improvements, not confirmed exploits:
+- Explicitly select an authorized capture interface.
+- Use a main() function and a __main__ guard.
+- Add handling for expected capture/setup errors.
+- Review whether source and destination IP output is necessary.
+- Restrict access to any saved output.
+- Capture traffic only with appropriate authorization.
+
+7. LIMITATIONS AND CONCLUSION
+Payload content is no longer printed in the modified code.
+Source and destination IP addresses are still displayed.
+
+Both Bandit scans reported zero issues. Manual inspection
+identified a potential privacy risk outside those scan results.
+
+The payload-output change was checked by source inspection.
+Runtime behavior has not been verified.
+Additional recommendations have not yet been implemented.
